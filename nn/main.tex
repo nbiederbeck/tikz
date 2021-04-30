@@ -1,0 +1,69 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+
+\begin{document}
+
+% \tikz{
+%   % Input Node
+%   \draw (0,0) circle[radius=1] node {\(I\)};
+
+%   % Hidden Layer 1
+%   \draw (3,+1.5) circle[radius=1] node {\(w_{11}\)};
+%   \draw (3,-1.5) circle[radius=1] node {\(w_{12}\)};
+%   \draw (1,0) -- (2,+1.5);
+%   \draw (1,0) -- (2,-1.5);
+
+%   % Hidden Layer 2
+%   \draw (6,+1.5) circle[radius=1] node {\(w_{21}\)};
+%   \draw (6,-1.5) circle[radius=1] node {\(w_{22}\)};
+%   \draw (4,+1.5) -- (5,-1.5);
+%   \draw (4,+1.5) -- (5,+1.5);
+%   \draw (4,-1.5) -- (5,-1.5);
+%   \draw (4,-1.5) -- (5,+1.5);
+
+%   % Output Node
+%   \draw (9,0) circle[radius=1] node {\(O\)};
+%   \draw (7,+1.5) -- (8,0);
+%   \draw (7,-1.5) -- (8,0);
+% }
+
+\newcommand\xs{3, 6, 9}
+\newcommand\ys{-2.2, 0, 2.2}
+\newcommand\xO{12}
+
+\tikz{
+  \coordinate (I) at (0,0);
+  \coordinate (O) at (\xO,0);
+
+  % Input / Output Nodes
+  \draw (I) circle[radius=1];
+  \draw (O) circle[radius=1];
+
+  % Weights (Layer to Input/Output)
+  \foreach \y in \ys
+  \draw[thin] (1,0) -- (2, \y);
+  \foreach \y in \ys
+  \draw[thin] (\xO-1,0) -- (\xO-2, \y);
+
+  % Nodes
+  \foreach \x in \xs
+    \foreach \y in \ys
+    \draw (\x, \y) circle[radius=1];
+
+  % Weights (Layer to Layer)
+  \foreach \x in {3, 6}
+    \foreach \ystart in \ys
+      \foreach \ystop in \ys
+      \draw[thin] (\x+1, \ystart) -- (\x+2, \ystop);
+
+  \draw[<-,thick] (12,1.5)
+    arc [start angle=10, end angle=170, x radius=6, y radius=3]
+    node [midway,anchor=south] {Generate Image};
+
+  \draw[<-,thick] (0,-1.5)
+    arc [start angle=190, end angle=350, x radius=6, y radius=3]
+    node [midway,anchor=north] {Fit Parameters};
+}
+
+\end{document}
