@@ -1,0 +1,62 @@
+\documentclass{scrartcl}
+
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+
+\colorlet{darkRed}{red!80!black}
+\colorlet{darkBlue}{blue!70!black}
+
+\begin{document}
+\newcommand\xzgrid{
+  \foreach \x in {-1,-.9,...,1}
+    \draw [ thin, lightgray, ] (\x,0,-1) -- (\x,0,1);
+  \foreach \z in {-1,-.9,...,1}
+    \draw [ thin, lightgray, ] (-1,0,\z) -- (1,0,\z);
+}
+
+\newcommand\gammaray{
+  \draw[red] (1,3,1) node[anchor=south] {\(\gamma\)} -- (-.5,0,.7);
+}
+
+\tdplotsetmaincoords{20}{30}
+\begin{tikzpicture}
+
+  \coordinate (origin) at (0,0,0);
+
+  \xzgrid
+  \node[gray,anchor=south east] at (-1,0,-1) {\tiny{Ground}};
+
+  \draw[->] (origin) -- (1,0,0) node[anchor=west] {\(x\)};
+  \draw[->] (origin) -- (0,1,0) node[anchor=west] {\(z\)};
+  \draw[->] (origin) -- (0,0,1) node[anchor=east] {\(y\)};
+
+  \gammaray
+  \draw[red,dashed] (origin) -- (-.5,0,.7);
+
+  \begin{scope}[tdplot_main_coords]
+    \draw[->,blue] (origin) -- (0,1,0) node[anchor=west] {Pointing};
+  \end{scope}
+
+\end{tikzpicture}
+\begin{tikzpicture}
+
+  \coordinate (origin) at (0,0,0);
+
+  \begin{scope}[tdplot_main_coords]
+    \xzgrid
+    \node[gray,anchor=south east] at (-1,0,1) {\tiny{Tilted Ground}};
+    \draw[blue,->] (origin) -- (1,0,0) node[anchor=west] {\(x\)};
+    \draw[blue,->] (origin) -- (0,1,0) node[anchor=west] {\(z = \mathrm{Pointing}\)};
+    \draw[blue,->] (origin) -- (0,0,-1) node[anchor=north] {\(y\)};
+    \draw[red,dashed] (origin) -- (-.5,0,.7);
+  \end{scope}
+
+  \draw[thin,->] (origin) -- (1,0,0) node[anchor=west] {\(x\)};
+  \draw[thin,->] (origin) -- (0,1,0) node[anchor=west] {\(z\)};
+  \draw[thin,->] (origin) -- (0,0,1) node[anchor=east] {\(y\)};
+
+  \gammaray
+
+\end{tikzpicture}
+\end{document}
